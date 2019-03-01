@@ -11,6 +11,8 @@ ReceiveMessageWaitTimeSeconds  //（队列属性）此值设为 0，并且消息
 ```
 [aws sqs 用户凭证配置文档](https://docs.aws.amazon.com/zh_cn/sdk-for-go/v1/developer-guide/configuring-sdk.html)
 
+[可见性超时文档--目测比较重要的一个属性](https://docs.aws.amazon.com/zh_cn/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-visibility-timeout.html)
+
 [创建 sqs 队列](aws-demo/sqs-demo/sqs_createqueues.go)
 
 [创建并删除 sqs 队列](aws-demo/sqs-demo/sqs-createanddeletequeue)
