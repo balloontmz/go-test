@@ -1,3 +1,5 @@
+// 从队列中 接收并删除消息
+// 短轮询
 package main
 
 import (
@@ -28,8 +30,8 @@ func main() {
 		},
 		QueueUrl:            &qURL,
 		MaxNumberOfMessages: aws.Int64(1),
-		VisibilityTimeout:   aws.Int64(20), // 20 seconds
-		WaitTimeSeconds:     aws.Int64(0),
+		VisibilityTimeout:   aws.Int64(20), // 20 seconds			可见性超时
+		WaitTimeSeconds:     aws.Int64(0),  // 此值设为 0，并且队列属性  ReceiveMessageWaitTimeSeconds 设为0，代表短轮询 https://docs.aws.amazon.com/zh_cn/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-long-polling.html
 	})
 
 	if err != nil {

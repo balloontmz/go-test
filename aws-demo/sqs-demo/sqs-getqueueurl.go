@@ -1,3 +1,4 @@
+// 根据名字获取队列 url
 package main
 
 import (

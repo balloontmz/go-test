@@ -1,3 +1,5 @@
+// 创建队列
+// 创建 fifo 队列必须 在队列名加上 .fifo
 package main
 
 import (
