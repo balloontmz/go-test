@@ -14,7 +14,7 @@ type MyCircularQueue struct {
 	rear     int
 }
 
-// Constructor 在这里初始化你的数据结构，设置队列的大小。
+// Constructor 在这里初始化你的数据结构，设置队列的大小。如果要容量为 k，那么初始化的应该是 k+1
 func Constructor(k int) MyCircularQueue {
 	return MyCircularQueue{
 		element:  make([]string, k),
