@@ -29,4 +29,12 @@ ReceiveMessageWaitTimeSeconds  //（队列属性）此值设为 0，并且消息
 
 [sqs 队列中的可见性超时]
 
+### queue 相关
+
+队列测试
+`go test '../go-test/queue/queue-test-1/queue_test.go'`
+
 ### 测试上传
+
+
+### 编程语言自己实现自己的解释器 -- 自举
