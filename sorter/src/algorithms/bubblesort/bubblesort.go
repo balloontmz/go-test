@@ -12,10 +12,10 @@ func Bubblesort(values []int) {
 				// 判定是否进行了交换，如果没有，则代表其有序
 				flag = false
 			}
-
-			if flag == true {
-				break
-			}
+		}
+		// 如果一次遍历完没有进行过交换，则代表有序!!!
+		if flag == true {
+			break
 		}
 	}
 }
