@@ -21,6 +21,7 @@ func readValues(inputfile string) (values []int, err error) {
 		return
 	}
 
+	// 保证文件关闭
 	defer file.Close()
 
 	br := bufio.NewReader(file)
@@ -61,6 +62,22 @@ func readValues(inputfile string) (values []int, err error) {
 	return
 }
 
+func writeValues(values []int, outputfile string) error {
+	file, err := os.Create(outputfile)
+	if err != nil {
+		fmt.Println("Failed to create the output file ", outputfile)
+		return err
+	}
+	defer file.Close()
+
+	for _, value := range values {
+		str := strconv.Itoa(value) // 数字转字符串
+		file.WriteString(str + "\n")
+		fmt.Println("当前遍历的结果为: ", value)
+	}
+	return nil
+}
+
 func main() {
 	// 解析命令行参数
 	flag.Parse()
@@ -74,6 +91,7 @@ func main() {
 	// 没有错误的情况下
 	if err == nil {
 		fmt.Println("Read values:", values)
+		writeValues(values, *outputfile)
 	} else {
 		fmt.Println(err)
 	}
