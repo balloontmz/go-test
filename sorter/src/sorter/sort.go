@@ -7,6 +7,10 @@ import (
 	"io"
 	"os"
 	"strconv"
+	"time"
+
+	"sorter/src/algorithms/bubblesort"
+	"sorter/src/algorithms/qsort"
 )
 
 var inputfile = flag.String("i", "input.bat", "File contains values for sorting")
@@ -90,7 +94,19 @@ func main() {
 	values, err := readValues(*inputfile)
 	// 没有错误的情况下
 	if err == nil {
-		fmt.Println("Read values:", values)
+		t1 := time.Now()
+		switch *algorithm {
+		case "qsort":
+			qsort.QuickSort(values)
+		case "bubblesort":
+			bubblesort.Bubblesort(values)
+		default:
+			fmt.Println("Sorting algorithm", *algorithm, "is either unknown or unsupported")
+		}
+		t2 := time.Now()
+
+		fmt.Println("Sorting process costs", t2.Sub(t1), "to complete.")
+
 		writeValues(values, *outputfile)
 	} else {
 		fmt.Println(err)
