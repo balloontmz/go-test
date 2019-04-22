@@ -30,3 +30,19 @@ select {
         // 如果超过某个时间，则此case先执行完
 }
 ```
+
+## channel 的传递
+```go
+// 数据从一个 chan 传递到另外一个 chan
+type PipeData struct {
+    value int
+    handler func(int) int
+    next chan int
+}
+
+func handler(queue chan *PipeData){
+    for data := range queue {
+        data.next <- data.handler(data.value)
+    }
+}
+```
