@@ -85,3 +85,28 @@ for i := 0; i < s.NumField(); i++ {
 ```
 
 对于结构的反射操作并没有根本上的不同，只是用了 Field() 方法来按索引获取对应的成员。**在试图修改成员的值时，也需要注意可赋值属性。**
+
+## 9.2 语言交互性--C
+
+## 9.3 链接符号
+
+链接符号关心的是如何将语言文法使用的符号转换为链接期间使用的符号，在常规情况下，链接期间使用的符号对我们不可见。但是一些特殊情况下，我们需要关系这一点。**比如：在用 gdb 调试的时候，要设置断点：b<函数名> , 这里的函数名是指“链接符号”**
+
+```go
+//假设在 qbox.us/mockfs 模块中，有如下几个函数：
+func New(cfg Config) *MockFS
+func (fs *MockFS) Mkdir(dir string) (code int, err error)
+func (fs MockFS) Foo(bar Bar)
+
+//它们的链接符号分别为：
+qbox.us/mockfs.New
+qbox.us/mockfs.*MockFS.Mkdir
+qbox.us/mockfs.MockFS.Foo
+```
+
+## 9.4 goroutine 机理
+
+从根本上来说 goroutine 就是一种 Go 语言版本的协程(coroutine)。因此，要理解 goroutine 的运作机理，关键是理解传统意义上协程的工作机理
+
+### 9.4.1 协程
+
