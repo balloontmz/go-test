@@ -149,3 +149,32 @@ Go：非侵入式的接口实现
 + 接口之间相互赋值
 + 接口查询
 
+### note
+
+匿名组合：
+关键点是方法的类似继承。即基类的方法会自动导入到子类。如果子类有同名方法，则会被覆盖。
+```go
+type Base struct {
+    Name string
+}
+
+func (base *Base) Foo() {}
+func (base *Base) Bar() {}
+
+type Foo struct {
+    Base
+}
+
+func (foo *Foo) Bar(){
+    foo.Base.Bar()
+}
+
+foo = &Foo{Base{"test"}}
+// 基类的方法被覆盖
+foo.Bar() != foo.Base.Bar()
+
+// 基类的方法被'继承'
+foo.Foo() == foo.Base.Foo()
+```
+
+**[c 语言版本的接口实现，代码还需要仔细看。](./interface-2.c)**
