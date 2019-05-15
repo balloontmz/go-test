@@ -178,3 +178,45 @@ foo.Foo() == foo.Base.Foo()
 ```
 
 **[c 语言版本的接口实现，代码还需要仔细看。](./interface-2.c)**
+
+### 9.5.2 接口查询
+
+```go
+// 查询 IReader 是否实现了 IReadWriter 接口
+var reader IReader = NewReader()
+if writer, ok := reader.(IReadWriter); ok {
+    writer.Write()
+}
+```
+
+接口匹配过程，按照接口信息表包含的方法是名进行逐一匹配，如果发现传入的信息 是接口方法表的超集，则表示接口查询成功。
+**c 语言 -> 访问指针 . 访问成员**
+```c
+typedef struct _ITbl {
+    InterfaceInfo* inter;
+    TypeInfo* type;
+} ITbl;
+
+ITbl* MakeITbl(InterfaceInfo* intf, TypeInfo* ti) {
+    size_t i, n =MemberCount(intf);
+    ITbl* dest = (ITbl*)malloc(n * sizeof(void*) + sizeof(ITbl));
+    void** addrs = (void**)(dest + 1);
+
+    for (i=0;i<n;i++) {
+        addrs[i] = MemberFind(ti, intf->tags[i]);
+        if (addrs[i] == NULL){
+            free(dest);
+            return NULL
+        }
+    }
+
+    dest->inter = intf;
+    dest->type = ti;
+}
+
+
+```
+
+### 9.5.3 接口赋值
+
+接口赋值可以看成是接口查询的优化，因为其在编译器就能确定接口和类型是否匹配。省略了查询的步骤。
