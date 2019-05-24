@@ -8,6 +8,7 @@ type Player interface {
 	Play(source string)
 }
 
+//Play 此处的 play 不是接口的 Play！！！
 func Play(source, mtype string) {
 	var p Player
 
@@ -20,5 +21,5 @@ func Play(source, mtype string) {
 		fmt.Println("Unsupported music type", mtype)
 		return
 	}
-	p.Play()
+	p.Play(source)
 }
