@@ -46,3 +46,18 @@ func handler(queue chan *PipeData){
     }
 }
 ```
+
+### 注意 go 关键字的使用 
+```go
+/*
+[解析网址](https://www.jianshu.com/p/0cf17d40b65b)
+go println(i)
+和
+ go func() {
+            println(i)
+        }()
+不是同一个东西
+*/
+
+
+```
