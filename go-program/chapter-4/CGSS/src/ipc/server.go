@@ -63,6 +63,6 @@ func (server *IpcServer) Connect() chan string {
 		}
 	}(session)
 
-	fmt.Print("新 session 创建成功")
+	fmt.Print("新 session 创建成功\n")
 	return session
 }
