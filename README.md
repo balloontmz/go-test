@@ -58,3 +58,7 @@ ReceiveMessageWaitTimeSeconds  //（队列属性）此值设为 0，并且消息
 ### 程序的集合是可数的
 
 所有程序的集合虽然是无穷的。但是程序是由有限种字符有限次排列成的，那么每个程序就能唯一对应一个整数
+
+## 参考书
+Go in action
+The Go Programming Language
