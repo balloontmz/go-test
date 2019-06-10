@@ -1,0 +1,22 @@
+{{ define "layout" }}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>ChitChat</title>
+</head>
+<body>
+    {{ template "navbar" . }}
+    <div class="container">
+        {{ template "content" . }}
+    </div>
+
+    <!-- 此处的 js 引入尚未加真的文件 -->
+    <script src="/static/js/jquery"></script>
+    <script src="/static/js/bootstrap"></script>
+
+</body>
+</html>
