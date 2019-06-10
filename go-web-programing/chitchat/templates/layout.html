@@ -9,6 +9,7 @@
     <title>ChitChat</title>
 </head>
 <body>
+    <!-- `.` 代表传递 父模板的所有数据到子模板 -->
     {{ template "navbar" . }}
     <div class="container">
         {{ template "content" . }}
@@ -20,3 +21,5 @@
 
 </body>
 </html>
+
+{{ end }}
