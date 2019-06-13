@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
 
 	"chitchat/app/controller"
@@ -30,8 +31,9 @@ func main()  {
 	// mux.HandleFunc("/thread/read", controller.Read)
 
 	server := &http.Server{
-		Addr: "0.0.0.0:8080",
+		Addr: "127.0.0.1:8080",
 		Handler: mux,
 	}
+	fmt.Println("项目已启动")
 	server.ListenAndServe()
 }
