@@ -33,3 +33,36 @@ GET 方法也是能发送表单请求的。但是由于 GET 没有请求体，�
 
 ### Form 字段
 
+r.Form 能访问表单或者 url 提供的键值，如果只想访问表单，可以通过 PostForm 字段。PostForm 只支持 x-www-form-urlencoded 不支持 form-data。要获取 formm-data 的表单值，可以通过 MultiPartForm 字段 -- 不包括 url
+
+FormValue 能获取指定表单键的值，即使有多个值，也会只获取第一个。
+
+### 文件
+
+### 处理带有 json 主体的 post 请求
+
+## ResponseWriter
+
+ResponseWriter 其实是 http.response 非导出结构的指针接口。
+
+Write
+writeHeader
+Header
+
+Write 方法接收一个字节数组作为参数，并为数组中的字节写入 HTTP 响应的主体中。如果用户在使用 write 方法执行写入操作的时候没有为首部设置相应的内容类型，那么响应的内容类型通过检测被写入的前 512 个字节决定。
+
+WriteHeader 为响应写入 HTTP 响应状态码
+
+Header 为响应写入首部。
+
+WriteHeader 在执行完毕后就不在允许对首部进行写入。
+
+## Cookie
+
+cookie 是一种存储在客户端、体积较小的信息。cookie 分为会话 cookie 和持久 cookie。
+
+cookie 用于客服 http 的无状态属性。
+
+Expires 用于指定过期时间，没有设置该属性的 cookie 称为临时 cookie，当浏览器关闭时该 cookie 会自动删除。设置了该属性的 cookie 会在到期时间到达时自动删除。Expires 和 Maxage 都是用于设置过期时间，但是 Expires 应用更为广泛，HTTP 1.1 删除了Expires，推荐使用 Maxage。Expires 指定的是一个时间戳，Maxage 指定的是从页面被打开到 cookie 过期的秒数。
+
+### 将 cookie 发送给浏览器

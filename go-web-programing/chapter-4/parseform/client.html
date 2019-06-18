@@ -7,6 +7,13 @@
     <title>Document</title>
 </head>
 <body>
+    <!-- 1. 通过 post 方法将表单发送到地址--
+    2. 通过 enctype 将表单的内容设置为：
+    3. 将表单内容通过键值对发送给服务器  
+        hello 有两个值，一个通过 url 提供，一个通过文本输入行提供。
+        
+    -->
+
     <form action="http://127.0.0.1:8080/progress?hello=world&foo=bar" method="post" enctype="application/x-www-form-urlencoded">
         <input type="text" name="hello" value="test">    
         <input type="text" name="post" value="test2">
