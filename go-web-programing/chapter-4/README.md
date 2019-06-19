@@ -65,4 +65,8 @@ cookie 用于客服 http 的无状态属性。
 
 Expires 用于指定过期时间，没有设置该属性的 cookie 称为临时 cookie，当浏览器关闭时该 cookie 会自动删除。设置了该属性的 cookie 会在到期时间到达时自动删除。Expires 和 Maxage 都是用于设置过期时间，但是 Expires 应用更为广泛，HTTP 1.1 删除了Expires，推荐使用 Maxage。Expires 指定的是一个时间戳，Maxage 指定的是从页面被打开到 cookie 过期的秒数。
 
-### 将 cookie 发送给浏览器
+### 将 cookie 发送给浏览器 和接收请求的 cookie
+
+### 使用 cookie 实现闪现消息
+
+通过一个临时会话 cookie 传递消息，通过找到该 cookie 显示消息。通过设置过期的持久会话删除 cookie。    
