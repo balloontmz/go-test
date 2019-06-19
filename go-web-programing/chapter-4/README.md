@@ -69,4 +69,6 @@ Expires 用于指定过期时间，没有设置该属性的 cookie 称为临时 
 
 ### 使用 cookie 实现闪现消息
 
-通过一个临时会话 cookie 传递消息，通过找到该 cookie 显示消息。通过设置过期的持久会话删除 cookie。    
+通过一个临时会话 cookie 传递消息，通过找到该 cookie 显示消息。通过设置过期的持久会话删除 cookie。  
+
+
