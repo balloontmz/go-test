@@ -41,6 +41,29 @@
  * 
  */
 func validPalindrome(s string) bool {
-    
+	i := 0
+	j := len(s) - 1
+	// 双指针同时缩小，如果能遍历完，代表该字符串是回文。
+	for i < j {
+		// 如果进入判断里面，则跳过一个索引继续进行回文判断
+		if s[i] != s[j] {
+			return isPalindrome(s, i, j-1) || isPalindrome(s, i + 1, j)
+		}
+		i++
+		j--
+	}
+	return true
+}
+
+// 判断 i,j 往内是否为回文。
+func isPalindrome(s string, i, j int) bool {
+	for i < j{
+		if s[i] != s[j] {
+			return false
+		}
+		i++
+		j--
+	}
+	return true
 }
 
