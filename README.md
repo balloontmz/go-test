@@ -65,4 +65,4 @@ The Go Programming Language
 
 ## Go 引用类型：
 
-Golang中只有三种引用类型:slice(切片)、map(字典)、channel(管道)
+Golang中只有三种引用类型:slice(切片)、map(字典)、channel(管道) -- 数组是值类型。（和切片区分，通过一个拷贝操作能体现出来。）
