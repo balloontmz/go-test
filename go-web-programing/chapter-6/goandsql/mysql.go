@@ -48,3 +48,36 @@ func Posts(limit int) (posts []Post, err error) {
 	return 
 }
 
+func (post *Post) Create() (err error) {
+	statement := "insert into posts (content, author) values ($1, $2) returning postId"
+	// 指向一个 sql.Stmt 接口的引用，位于 sql.Driver 包中。 该接口被数据库驱动实现
+	stmt, err := Db.Prepare(statement) // 构建预处理语句
+	if err != nil {
+		return
+	}
+	defer stmt.Close()
+	// QueryRaw 方法返回一个 sql.Raw 的引用。如果返回多个 Row，只会返回第一个 Raw，并且不会返回错误。所以能搭配 Raw 的方法使用。
+	// 实现插入并且返回 ID 的功能。
+	err = stmt.QueryRaw(post.Content, post.Author).Scan(&post.ID) // 执行插入语句并将返回值赋予给 post 的 ID
+}
+
+func GetPost(id int) (psot Post, err error) {
+	post = Post{}
+	// 也可以采用 sql.Stmt 实现，除了 stmt 能生成 sql 语句用于重复利用，两者差别不大
+	err = Db.QueryRow("select postId, content, author from posts where id = $1", id).Scan(&post.ID, &post.Content, &post.Author)
+	return 
+}
+
+func (posst *Post) Update() (err error) {
+	// 程序并不需要对接收者进行更新，也不需要对结果进行扫描，所以采用 Exec 函数
+	// 只返回错误信息，为不为空都返回
+	_, err = Db.Exec("update posts set content = $2, author = $3 where postId=$1", post.ID, post.Content, post.Author)
+	return
+}
+
+func (posst *Post) Delete() (err error) {
+	// 程序并不需要对接收者进行删除，也不需要对结果进行扫描，所以采用 Exec 函数
+	// 只返回错误信息，为不为空都返回
+	_, err = Db.Exec("delete from posts where postId=$1", post.ID)
+	return
+}
