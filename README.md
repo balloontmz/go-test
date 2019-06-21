@@ -62,3 +62,7 @@ ReceiveMessageWaitTimeSeconds  //（队列属性）此值设为 0，并且消息
 ## 参考书
 Go in action
 The Go Programming Language
+
+## Go 引用类型：
+
+Golang中只有三种引用类型:slice(切片)、map(字典)、channel(管道)
