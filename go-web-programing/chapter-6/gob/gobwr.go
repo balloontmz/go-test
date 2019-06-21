@@ -17,7 +17,7 @@ type (
 	}
 )
 
-func store(data interface{}, filename string)  {
+func store(data interface{}, filename string)  { // 存储数据
 	buffer := new(bytes.Buffer) // 生成指定类型的空指针--生成拥有 Read 和 Write 方法的可变长字节缓冲区
 	encoder := gob.NewEncoder(buffer) // 创建 gob 编码器
 	err := encoder.Encode(data) // 将数据编码到缓冲区
@@ -30,7 +30,7 @@ func store(data interface{}, filename string)  {
 	}
 }
 
-func load(data interface{}, filename string)  {
+func load(data interface{}, filename string)  { // 载入数据
 	raw, err := ioutil.ReadFile(filename)
 	if err != nil {
 		panic(err)
