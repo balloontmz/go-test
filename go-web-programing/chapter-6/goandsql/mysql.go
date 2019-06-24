@@ -32,6 +32,7 @@ func init()  {
 }
 
 func Posts(limit int) (posts []Post, err error) {
+	// Query 方法返回一个 Rows 接口，Rows 是一个迭代器。调用 Next 方法获取下一行，迭代完毕返回 io.EOF
 	rows, err := Db.Query("select postsId,content, author from posts limit $1", limit)
 	if err != nil {
 		return
