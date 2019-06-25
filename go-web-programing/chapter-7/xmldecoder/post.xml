@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<post id="1">
+    <content>Hello</content>
+    <author id="2">Tomtiddler</author>
+    <comments>
+        <comment id="1">
+            <content>THis is a comment</content>
+            <author id="3">Adam</author>
+        </comment>
+        <comment id="2">
+            <content>THis is second comment</content>
+            <author id="4">Tiddler</author>
+        </comment>
+    </comments>
+</post>

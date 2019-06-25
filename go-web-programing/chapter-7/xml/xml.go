@@ -17,7 +17,7 @@ type (
 		Content string `xml:"content"`
 		Author Author `xml:"author"`
 		Xml string `xml:",innerxml"`
-		Comments []Comment `xml:"comments>comment"`
+		Comments []Comment `xml:"comments>comment"` // 访问子元素
 	}
 	Author struct {
 		ID string `xml:"id,attr"`
