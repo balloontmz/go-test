@@ -47,3 +47,23 @@ MarshalIndent 能生成更好看的 xml！！！--接收两个额外参数，一
 xml.Header 添加在 xml 字符串之前为输出的 xml 添加声明。
 
 也可以采用 Encoder 将 xml输出到文件当中
+
+## 分析和创建 json
+
+### 分析 json
+
+1. 创建一些用于包含 json 数据的结构
+2. 通过 json.Unmarshal 函数，把 json 数据解封到结构里面。
+
+通用规则：将字段的结构标签设置为：``" `json:"<name>"` "``
+
+根据输入决定采用 Decoder 还是 Unmarshal。如果 json 来自 io.Reader 流，那么使用 Decoder 更好。如果 json 数据来源于字符串或者内存中的某个地方，那么使用 Unmarshal 更好。
+
+MarshalIndent 将结构封装成格式化的 json，更美观。
+
+### web 服务
+
+### 总结：
+1. 编写 web 服务是 go 目前非常常见的用途之一
+2. web 服务主要分为两种类型：基于 soap 的 web 服务和基于 rest 的 web 服务
+3. 创建和分析 xml 以及 json 的步骤都是相似的。
