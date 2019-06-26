@@ -20,3 +20,13 @@ testing.Short 配合 -short 跳过指定测试用例。
 一种是用于查明任务单元性能的基准测试 benchmarking
 
 基准测试函数必须以 Benchmark 开头，并且引入 *testing.B 作为参数
+
+-test.count 也许能指定基准测试的运行次数。
+
+-run 能指定需要运行的功能测试
+
+-bench 能指定需要运行的基准测试。
+
+## go 进行 http 测试
+
+也是内置包。
