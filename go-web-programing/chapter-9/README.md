@@ -29,3 +29,7 @@ wg.Wait()
 
 ### 从多个通道选择
 select case 如果多个 case 都有值，就会默认选择一个 case 执行。
+
+## web 应用并发
+
+Upstart systemd 守护进程
