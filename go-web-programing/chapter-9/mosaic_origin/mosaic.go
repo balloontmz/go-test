@@ -39,11 +39,12 @@ func averageColor(img image.Image) [3]float64 {
 	return [3]float64{r / totalPixels, g / totalPixels, b / totalPixels}
 }
 
-//resize 将图片缩放至指定宽度?
+//resize 将图片缩放至指定宽度? -- 按理说应该能
 func resize(in image.Image, newWidth int) image.NRGBA {
 	bounds := in.Bounds()
 	ratio := bounds.Dx()/newWidth   // 设定缩放 比例
 	// 此函数的用处？
+	// 此处第二个参数到底是 x 还是 y
 	out := image.NewNRGBA(image.Rect(bounds.Min.X/ratio, bounds.Min.Y/ratio, bounds.Max.X/ratio, bounds.Max.Y/ratio))
 	for y, j := bounds.Min.Y, bounds.Min.Y; y < bounds.Max.Y; y, j = y + ratio, j + 1 {
 		for x, i := bounds.Min.X, bounds.Min.X; x < bounds.Max.X; x, i = x + ratio, i + 1 {
@@ -52,6 +53,7 @@ func resize(in image.Image, newWidth int) image.NRGBA {
 			out.SetNRGBA(i, j, color.NRGBA{uint(r>>8), uint(g>>8), uint(b>>8), uint(a>>8),})
 		}
 	}
+	return *out
 }
 
 //tilesDB 通过扫描瓷砖图片所在的目录来创建一个瓷砖图片数据库
