@@ -7,8 +7,8 @@ import (
 	"io/ioutil"
 	"math"
 	"os"
-	"path/filepath"
-	"sync"
+	// "path/filepath"
+	// "sync"
 )
 
 var TILESDB map[string][3]float64
@@ -50,7 +50,7 @@ func resize(in image.Image, newWidth int) image.NRGBA {
 		for x, i := bounds.Min.X, bounds.Min.X; x < bounds.Max.X; x, i = x + ratio, i + 1 {
 			r, g, b, a := in.At(x, y).RGBA()
 			// 此处函数的作用是？
-			out.SetNRGBA(i, j, color.NRGBA{uint(r>>8), uint(g>>8), uint(b>>8), uint(a>>8),})
+			out.SetNRGBA(i, j, color.NRGBA{uint8(r>>8), uint8(g>>8), uint8(b>>8), uint8(a>>8),})
 		}
 	}
 	return *out
@@ -60,7 +60,7 @@ func resize(in image.Image, newWidth int) image.NRGBA {
 func tilesDB() map[string][3]float64 {
 	fmt.Println("Start populating tiles db ...")
 	db := make(map[string][3]float64)
-	files, _ = ioutil.ReadDir("tiles") // 读取 tiles 文件夹的文件
+	files, _ := ioutil.ReadDir("tiles") // 读取 tiles 文件夹的文件
 	for _, f := range files {
 		name := "tiles/" + f.Name()
 		file, err := os.Open(name)

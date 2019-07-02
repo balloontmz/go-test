@@ -11,7 +11,7 @@ import (
 	"net/http"
 	"os"
 	"strconv"
-	"sync"
+	// "sync"
 	"time"
 )
 
@@ -22,7 +22,7 @@ func main()  {
 	mux.HandleFunc("/", upload)
 	mux.HandleFunc("/mosaic", mosaic)
 	server := &http.Server{
-		Addr: "127.0.0.1:8080"
+		Addr: "127.0.0.1:8080",
 		Handler: mux,
 	}
 
@@ -39,18 +39,22 @@ func upload(w http.ResponseWriter, r *http.Request)  {
 func mosaic(w http.ResponseWriter, r *http.Request)  {
 	t0 := time.Now()
 	r.ParseMultipartForm(10485760) // 表单的参数 
-	file, _, _, := FormFile("image")  // 获取用户上传的目标图片
+	file, _, _ := r.FormFile("image")  // 获取用户上传的目标图片
 	defer file.Close()
 	tileSize, _ := strconv.Atoi(r.FormValue("tile_size")) // 获取传入的瓷砖图片大小
 
-	original, _ := image.Decode(file)
+	original, _, _ := image.Decode(file)
 	bounds := original.Bounds()
+
+	fmt.Println("此处打个标签0")
 
 	newImage := image.NewNRGBA(image.Rect(bounds.Min.X, bounds.Min.Y, bounds.Max.X, bounds.Max.Y))
 	
 	db := cloneTilesDB()  // 复制瓷砖数据库
 
 	sp := image.Point{0, 0} // 为每张瓷砖图片设置起始点
+
+	fmt.Println("此处打个标签1")
 
 	for y := bounds.Min.Y; y < bounds.Max.Y; y = y + tileSize {
 		for x := bounds.Min.X; x < bounds.Max.X; x = x + tileSize {
@@ -76,6 +80,7 @@ func mosaic(w http.ResponseWriter, r *http.Request)  {
 			file.Close()
 		}
 	}
+	fmt.Println("此处打个标签2")
 
 	buf1 := new(bytes.Buffer)
 	jpeg.Encode(buf1, original, nil) // 将原始图片编码成 jpeg 格式
@@ -83,13 +88,14 @@ func mosaic(w http.ResponseWriter, r *http.Request)  {
 
 	buf2 := new(bytes.Buffer)
 	jpeg.Encode(buf2, newImage, nil)
-	mosaic := StdEncoding.EncodeToString(buf2.Bytes())
+	mosaic := base64.StdEncoding.EncodeToString(buf2.Bytes())
 	t1 := time.Now()
 	images := map[string]string{
 		"original": originalStr,
 		"mosaic": mosaic,
 		"duration": fmt.Sprintf("%v ", t1.Sub(t0)),
 	}
-	t, _ := template.ParseFiles("result.html")
+	// fmt.Println("返回结果打印", images)
+	t, _ := template.ParseFiles("results.html")
 	t.Execute(w, images)
 }
