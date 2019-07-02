@@ -11,7 +11,7 @@ import (
 	"net/http"
 	"os"
 	"strconv"
-	// "sync"
+	"sync"
 	"time"
 )
 
@@ -57,18 +57,20 @@ func mosaic(w http.ResponseWriter, r *http.Request)  {
 	c3 := cut(original, &db, tileSize, bounds.Min.X, bounds.Max.Y/2, bounds.Max.X/2, bounds.Max.Y)
 	c4 := cut(original, &db, tileSize, bounds.Max.X/2, bounds.Max.Y/2, bounds.Max.X, bounds.Max.Y)
 
-	c := combine(bounds, c1, c2, c3, c4)
+	c := combine(bounds, c1, c2, c3, c4) // 内部 goroutine 对 c 放入值
 
 	buf1 := new(bytes.Buffer)
 	jpeg.Encode(buf1, original, nil) // 将原始图片编码成 jpeg 格式
 	originalStr := base64.StdEncoding.EncodeToString(buf1.Bytes())
 
-	t1 := time.Now()
+	// t1 := time.Now()
 	images := map[string]string{
 		"original": originalStr,
-		"mosaic": <- c,
-		"duration": fmt.Sprintf("%v ", t1.Sub(t0)),
+		"mosaic": <- c,  // 阻塞直到取到对应的值
+		// "duration": fmt.Sprintf("%v ", t1.Sub(t0)),
 	}
+	t1 := time.Now()
+	images["duration"] = fmt.Sprintf("%v ", t1.Sub(t0))
 	// fmt.Println("返回结果打印", images)
 	t, _ := template.ParseFiles("results.html")
 	t.Execute(w, images)
@@ -88,13 +90,13 @@ func cut(original image.Image, db *DB, tileSize, x1, y1, x2, y2 int) <- chan ima
 				r, g, b, _ := original.At(x, y).RGBA() // 获取当前遍历位置的原始图片的左上角像素
 				color := [3]float64{float64(r), float64(g), float64(b)}
 	
-				nearest := nearest(color, &db)  // 获取最近的瓷砖图片名
+				nearest := db.nearest(color)  // 获取最近的瓷砖图片名
 				file, err := os.Open(nearest)
 	
 				if err == nil {
 					img, _, err := image.Decode(file)
 					if err == nil {
-						t := resize(img, tileSize)
+						t := resize(img, tileSize) // 对瓷砖图片重新指定大小
 						tile := t.SubImage(t.Bounds()) // 此函数的作用 
 						tileBounds := image.Rect(x, y, x + tileSize, y + tileSize)
 						draw.Draw(newImage, tileBounds, tile, sp, draw.Src)
@@ -108,6 +110,44 @@ func cut(original image.Image, db *DB, tileSize, x1, y1, x2, y2 int) <- chan ima
 			}
 		}
 		c <- newImage.SubImage(newImage.Rect)
+	}()
+	return c
+}
+
+func combine(r image.Rectangle, c1, c2, c3, c4 <-chan image.Image) <-chan string {
+	c := make(chan string)
+
+	go func() {
+		var wg sync.WaitGroup
+		img := image.NewRGBA(r)
+		copy := func(dst draw.Image, r image.Rectangle, src image.Image, sp image.Point) {
+			draw.Draw(dst, r, src, sp, draw.Src)
+			wg.Done()  // 每复制完一张子图片，就对计数器执行一次减一操作
+		}
+		wg.Add(4) // 将等待组计数器设置为 4
+		var s1, s2, s3, s4 image.Image
+		var ok1, ok2, ok3, ok4 bool
+
+		for {
+			select {
+			case s1, ok1 = <-c1:
+				go copy(img, s1.Bounds(), s1, image.Point{r.Min.X, r.Min.Y})
+			case s2, ok2 = <-c2:
+				go copy(img, s2.Bounds(), s2, image.Point{r.Max.X/2, r.Min.Y})
+			case s3, ok3 = <-c3:
+				go copy(img, s3.Bounds(), s3, image.Point{r.Min.X, r.Max.Y/2})
+			case s4, ok4 = <-c4:
+				go copy(img, s4.Bounds(), s4, image.Point{r.Max.X/2, r.Max.Y/2})
+			}
+			if ok1 && ok2 && ok3 && ok4 {
+				break // 当所有通道都被读取了值--即都已关闭，跳出循环
+			}
+		}
+		wg.Wait()
+		buf2 := new(bytes.Buffer)
+		jpeg.Encode(buf2, img, nil)
+		c <- base64.StdEncoding.EncodeToString(buf2.Bytes())
+
 	}()
 	return c
 }

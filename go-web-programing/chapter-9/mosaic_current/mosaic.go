@@ -96,13 +96,13 @@ func (db *DB) nearest(target [3]float64) string {
 	// 因为在数据库移除被选中的图片之前，还是存在多个 goroutine 将同张图片匹配为最佳结果的情况，所以需要对整个匹配过程加锁
 	db.mutex.Lock()
 	smallest := 1000000.0 // 浮点数
-	for k, v := range *db {
+	for k, v := range db.store {
 		dist := distance(target, v)
 		if dist < smallest {
 			filename, smallest = k, dist
 		}
 	}
-	delete(*db, filename) // 删除最后一次的数据库中文件名键，即选定的文件。
+	delete(db.store, filename) // 删除最后一次的数据库中文件名键，即选定的文件。
 	db.mutex.Unlock()
 	return filename
 }
