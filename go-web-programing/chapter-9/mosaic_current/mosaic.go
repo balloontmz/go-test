@@ -8,18 +8,27 @@ import (
 	"math"
 	"os"
 	// "path/filepath"
-	// "sync"
+	"sync"
 )
 
-var TILESDB map[string][3]float64
+var TILESDB map[string][3]float64 // 全局只读数据库
+
+type DB struct {
+	mutex *sync.Mutex // 互斥锁
+	store map[string][3]float64
+}
 
 //cloneTilesDB 拷贝数据库副本，防止重复生成数据库耗时。初运行程序时需要初始化一次数据库
-func cloneTilesDB() map[string][3]float64 {
+func cloneTilesDB() DB {
 	db := make(map[string][3]float64)
 	for k, v := range TILESDB {
 		db[k] = v
 	}
-	return db
+	tiles := DB{
+		store: db,
+		mutex: &sync.Mutex{},
+	}
+	return tiles
 }
 
 //计算图片的平均颜色
@@ -82,8 +91,10 @@ func tilesDB() map[string][3]float64 {
 }
 
 //nearest 比对目标图片和数据库的数据，找到和目标图片平均颜色最为接近的图片，并返回文件名，并删除数据库中这条记录
-func nearest(target [3]float64, db *map[string][3]float64) string {
+func (db *DB) nearest(target [3]float64) string {
 	var filename string
+	// 因为在数据库移除被选中的图片之前，还是存在多个 goroutine 将同张图片匹配为最佳结果的情况，所以需要对整个匹配过程加锁
+	db.mutex.Lock()
 	smallest := 1000000.0 // 浮点数
 	for k, v := range *db {
 		dist := distance(target, v)
@@ -92,6 +103,7 @@ func nearest(target [3]float64, db *map[string][3]float64) string {
 		}
 	}
 	delete(*db, filename) // 删除最后一次的数据库中文件名键，即选定的文件。
+	db.mutex.Unlock()
 	return filename
 }
 
