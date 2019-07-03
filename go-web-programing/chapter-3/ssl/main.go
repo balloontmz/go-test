@@ -1,5 +1,4 @@
 //生成个人使用的 ssl证书以及服务器私钥
-// 本文件尚未通过测试，暂存
 package main
 
 import (
@@ -26,6 +25,7 @@ func main()  {
 	}
 
 	// 证书配置
+	// 过期时间在哪设置？
 	template := x509.Certificate{ // Certificate 证书代表X.509证书。
 		SerialNumber: serialNumber,
 		Subject: subject,
