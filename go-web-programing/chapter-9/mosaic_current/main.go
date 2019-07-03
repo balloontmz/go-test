@@ -109,7 +109,7 @@ func cut(original image.Image, db *DB, tileSize, x1, y1, x2, y2 int) <- chan ima
 				file.Close()
 			}
 		}
-		c <- newImage.SubImage(newImage.Rect)
+		c <- newImage.SubImage(newImage.Rect) // 此函数的意义？
 	}()
 	return c
 }
