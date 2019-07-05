@@ -1,7 +1,7 @@
 package sort
 
 import (
-	"fmt"
+	// "fmt"
 )
 
 /*
@@ -24,7 +24,7 @@ import (
 
 //HeapSort2 从 python 代码中拷贝过来的
 func HeapSort2(li []int)  {
-	fmt.Println("进入排序")
+	// fmt.Println("进入排序")
 	j := len(li) - 1  // 获取切片长度
 	i := (j + 1) / 2
 	// 构造一个大顶堆
@@ -40,13 +40,6 @@ func HeapSort2(li []int)  {
 		heapSort(li, 0, j-1)  // j 以及之后的值已经有序了，不在需要进行排序。
 		j --
 	}
-}
-
-// 排序交换的原子操作
-func swp(li []int, i, j int) {
-	temp := li[i]
-	li[i] = li[j]
-	li[j] = temp
 }
 
 // 构建大顶堆的核心函数
