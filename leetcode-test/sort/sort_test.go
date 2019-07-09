@@ -17,6 +17,14 @@ func TestAdvanceBubbleSort(t *testing.T)  {
 	fmt.Println("冒泡排序结果为结果为：", cases)
 }
 
+func TestCoinChange(t *testing.T) {
+	cases := []int{25, 21, 10, 5, 1}
+	money := 63
+	coinUsed := make([]int, money + 1)
+	CoinChange(cases, coinUsed, money)
+	fmt.Println("硬币找零的结果为：", coinUsed)
+}
+
 func  BenchmarkBubbleSort(b *testing.B)  {
 	for i := 0; i < b.N; i++ {
         cases := []int{5, 3, 4, 1, 2, 7, 33, 21, 21, 5, 4}
