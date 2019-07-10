@@ -17,6 +17,9 @@ func TestAdvanceBubbleSort(t *testing.T)  {
 	fmt.Println("冒泡排序结果为结果为：", cases)
 }
 
+/*
+硬币找零的动态规划
+*/
 func TestCoinChange(t *testing.T) {
 	cases := []int{25, 21, 10, 5, 1}
 	money := 63
