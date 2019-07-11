@@ -5,6 +5,7 @@ import (
 	"testing"
 )
 
+//--------------功能测试--------------------------//
 func TestBubbleSort(t *testing.T)  {
 	cases := []int{5, 3, 4, 1, 2, 7, 33, 21, 21, 5, 4}
 	BubbleSort(cases, 1)
@@ -27,6 +28,16 @@ func TestCoinChange(t *testing.T) {
 	CoinChange(cases, coinUsed, money)
 	fmt.Println("硬币找零的结果为：", coinUsed)
 }
+
+func TestSimpleSelectionSort(t *testing.T)  {
+	cases := []int{5, 3, 4, 1, 2, 7, 33, 21, 21, 5, 4}
+	SimpleSelectionSort(cases)
+	fmt.Println("简单选择排序结果为：", cases)
+}
+
+//----------------------------------------------//
+
+//----------------基准测试-----------------------//
 
 func  BenchmarkBubbleSort(b *testing.B)  {
 	for i := 0; i < b.N; i++ {

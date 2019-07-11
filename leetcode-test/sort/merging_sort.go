@@ -10,6 +10,6 @@ func MergeSort(li []int)  {
 	msort(li, li, 0, len(li)-1)
 }
 
-func msort(list)  {
-	temp := make([]int, 0)
+func msort(liL, liR []int, x, y int)  {
+	// temp := make([]int, 0)
 }
