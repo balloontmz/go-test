@@ -25,7 +25,7 @@ func DirectInsertionSort(li []int)  {
 					break
 				}
 				
-				li[j+1] = li[j]  // 插入操作，是不是只需要进行一次就行了？
+				li[j+1] = li[j]  // 插入操作，是不是只需要进行一次就行了？ -- 不行，插入点之前的数据都需要后移
 				j --
 			}
 			li[j+1] = temp

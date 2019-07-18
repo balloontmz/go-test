@@ -41,6 +41,12 @@ func TestDirectInsertionSort(t *testing.T)  {
 	fmt.Println("直接插入排序结果为：", cases)
 }
 
+func TestMergeSort(t *testing.T)  {
+	cases := []int{5, 3, 4, 1, 2, 7, 33, 21, 21, 5, 4}
+	MergeSort(cases)
+	fmt.Println("直接插入排序结果为：", cases)
+}
+
 //----------------------------------------------//
 
 //----------------基准测试-----------------------//
