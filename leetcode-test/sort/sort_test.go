@@ -47,6 +47,18 @@ func TestMergeSort(t *testing.T)  {
 	fmt.Println("直接插入排序结果为：", cases)
 }
 
+func TestQuickSort(t *testing.T)  {
+	cases := []int{5, 3, 4, 1, 2, 7, 33, 21, 21, 5, 4}
+	QuickSort(cases)
+	fmt.Println("快速排序结果为：", cases)
+}
+
+func TestQuickSort2(t *testing.T)  {
+	cases := []int{5, 3, 4, 1, 2, 7, 33, 21, 21, 5, 4}
+	QuickSort2(cases)
+	fmt.Println("快速排序2结果为：", cases)
+}
+
 //----------------------------------------------//
 
 //----------------基准测试-----------------------//
