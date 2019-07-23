@@ -54,7 +54,7 @@ func merge(liL, liR []int, l, m, r int)  {
 		k++
 	}
 
-	// 注意边界问题
+	// 注意边界问题！！！
 	if l <= m {
 		for index := 0; index <= m - l; index++ {
 			liR[k + index] = liL[l + index]
