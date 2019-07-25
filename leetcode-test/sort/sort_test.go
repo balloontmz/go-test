@@ -59,6 +59,12 @@ func TestQuickSort2(t *testing.T)  {
 	fmt.Println("快速排序2结果为：", cases)
 }
 
+func TestShellSort(t *testing.T)  {
+	cases := []int{5, 3, 4, 1, 2, 7, 33, 21, 21, 5, 4}
+	ShellSort(cases)
+	fmt.Println("希尔排序结果为：", cases)
+}
+
 //----------------------------------------------//
 
 //----------------基准测试-----------------------//
