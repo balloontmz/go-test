@@ -39,10 +39,13 @@
  * 
  */
 func mySqrt(x int) int {
+	// ✔ 1017/1017 cases passed (4 ms)
+	// ✔ Your runtime beats 57.09 % of golang submissions
+	// ✔ Your memory usage beats 100 % of golang submissions (2.2 MB)
 	var l = 0
 	var r = x
-	for l < r {
-		m = l + (r - l)/2
+	for l <= r {
+		m := l + (r - l)/2
 		if m*m == x {
 			return m
 		} else if m*m < x {
