@@ -49,6 +49,9 @@
 }
 
 func numIslands(grid [][]byte) int {
+	// ✔ 47/47 cases passed (0 ms)
+	// ✔ Your runtime beats 100 % of golang submissions
+	// ✔ Your memory usage beats 33.33 % of golang submissions (2.9 MB)
 	if grid == nil || len(grid) == 0 {
 		return 0
 	}
@@ -75,7 +78,7 @@ func numIslands(grid [][]byte) int {
 }
 
 func (t T) dfs (grid [][]byte, r, c int) {
-	if r < 0 || r >= t.m || c <0 || c >= t.n || grid[r][c] == 0 {
+	if r < 0 || r >= t.m || c <0 || c >= t.n || grid[r][c] == '0' {
 		return
 	}
 	grid[r][c] = '0' // 访问过的节点置零 -- 也就是一片联通的岛最终只会算一个岛
