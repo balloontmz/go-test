@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"os"
 
@@ -15,4 +16,5 @@ func init() {
 
 func main() {
 	search.Run("president")
+	fmt.Println(1)
 }
