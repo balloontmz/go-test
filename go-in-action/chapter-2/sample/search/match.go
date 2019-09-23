@@ -1,13 +1,13 @@
 package search
 
 import (
-	"log"
 	"fmt"
+	"log"
 )
 
 //Result 保存搜索的 结果
 type Result struct {
-	Field string
+	Field   string
 	Content string
 }
 
@@ -17,8 +17,8 @@ type Matcher interface {
 }
 
 //Match 函数，为每个数据源单独启动 goroutine 来执行这个函数  并发地执行搜索
-func Match(matcher Matcher, feed *Feed, searchTerm string, results chan<- *Result)  {
-	searchResults, err := matcher.Search(feed, searchTerm)	
+func Match(matcher Matcher, feed *Feed, searchTerm string, results chan<- *Result) {
+	searchResults, err := matcher.Search(feed, searchTerm)
 	if err != nil {
 		log.Println(err)
 		return
@@ -31,7 +31,7 @@ func Match(matcher Matcher, feed *Feed, searchTerm string, results chan<- *Resul
 }
 
 //Display 从每个单独的 goroutine 中接收结果后在终端窗口显示
-func Display(results chan *Result)  {
+func Display(results chan *Result) {
 	// 通道会一直被阻塞，直到有结果写入。一旦通道被关闭，for 循环就会终止
 	for result := range results {
 		fmt.Println("%s:\n%s\n\n", result.Field, result.Content)

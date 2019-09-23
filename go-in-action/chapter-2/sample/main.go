@@ -9,10 +9,10 @@ import (
 )
 
 // main 函数之前调用
-func init()  {
+func init() {
 	log.SetOutput(os.Stdout)
 }
 
-func main()  {
+func main() {
 	search.Run("president")
 }

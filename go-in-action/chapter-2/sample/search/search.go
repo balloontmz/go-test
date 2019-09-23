@@ -8,7 +8,7 @@ import (
 var matchers = make(map[string]Matcher, 0)
 
 //Run 执行搜索逻辑
-func Run(searchTerm string)  {
+func Run(searchTerm string) {
 	// 获取需要搜索的数据源列表
 	feeds, err := RetrieveFeeds()
 	if err != nil {
@@ -20,7 +20,6 @@ func Run(searchTerm string)  {
 
 	// 构造一个 waitGroup 以便处理所有的数据源
 	var waitGroup sync.WaitGroup
-
 
 	// 设置需要等待处理每个数据源的 goroutine 的数量
 	waitGroup.Add(len(feeds))
@@ -34,8 +33,8 @@ func Run(searchTerm string)  {
 		// 启动一个 goroutine 来执行搜索
 		go func(matcher Matcher, feed *Feed) {
 			Match(matcher, feed, searchTerm, results)
-			waitGroup.Done()  // 这个参数实际是
-		}(matcher, feed)  // 此处参数采用传递的方式而不是闭包的方式 -- 如果采用闭包，goroutine 可能处理的是同一个数据
+			waitGroup.Done() // 这个参数实际是
+		}(matcher, feed) // 此处参数采用传递的方式而不是闭包的方式 -- 如果采用闭包，goroutine 可能处理的是同一个数据
 	}
 
 	// 启动一个 goroutine 来监控是否所有的工作都做完了
@@ -52,7 +51,7 @@ func Run(searchTerm string)  {
 }
 
 //Register 调用时，会注册一个匹配器，提供给后面的程序使用
-func Register(feedType string, matcher Matcher)  {
+func Register(feedType string, matcher Matcher) {
 	if _, exists := matchers[feedType]; exists {
 		log.Fatalln(feedType, "Matcher already registered")
 	}
