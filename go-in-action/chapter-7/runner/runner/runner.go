@@ -1,4 +1,4 @@
-//Package runner 包管理处理任务的运行和声明周期
+//Package runner 包管理处理任务的运行和生命周期
 package runner
 
 import (
