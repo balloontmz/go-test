@@ -8,7 +8,7 @@ import (
 	"runner/runner"
 )
 
-const timeout = 3 * time.Second
+const timeout = 4 * time.Second
 
 /*
 代码清单 7-13 的第 16 行是 main 函数。在第 20 行，使用 timeout 作为超时时间传给 New 函数，并返回了一个指向 Runner 类型的指针。之后在第 23 行，
