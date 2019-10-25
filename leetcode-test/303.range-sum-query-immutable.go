@@ -35,34 +35,59 @@
  */
 
 // @lc code=start
+
 type NumArray struct {
-	Dynamic []int
+	Nums []int
 }
 
-//动态规划解法,相当于提前把所有结果都计算出来!!!对于计算量要求少的觉得不划算!!!
+//普通解法,性能较低.对于少量不许哟复用的计算应该比较适用
 func Constructor(nums []int) NumArray {
-	// 16/16 cases passed (36 ms)
-	// Your runtime beats 81.46 % of golang submissions
-	// Your memory usage beats 100 % of golang submissions (10.9 MB)
+	// 16/16 cases passed (76 ms)
+	// Your runtime beats 25.17 % of golang submissions
+	// Your memory usage beats 100 % of golang submissions (8.3 MB)
 	var res = NumArray{
-		make([]int, len(nums)),
+		nums,
 	}
-	for i := 0; i < len(nums); i++ {
-		if i == 0 {
-			res.Dynamic[i] = nums[i]
-		} else {
-			res.Dynamic[i] = res.Dynamic[i-1] + nums[i]
-		}
-	}
+
 	return res
 }
 
 func (this *NumArray) SumRange(i int, j int) int {
-	if i == 0 {
-		return this.Dynamic[j]
+	var r int
+	for x := i; x <= j; x++ {
+		r += this.Nums[x]
 	}
-	return this.Dynamic[j] - this.Dynamic[i-1]
+	return r
 }
+
+// type NumArray struct {
+// 	Dynamic []int
+// }
+
+// //动态规划解法,相当于提前把所有结果都计算出来!!!对于计算量要求少的觉得不划算!!!
+// func Constructor(nums []int) NumArray {
+// 	// 16/16 cases passed (36 ms)
+// 	// Your runtime beats 81.46 % of golang submissions
+// 	// Your memory usage beats 100 % of golang submissions (10.9 MB)
+// 	var res = NumArray{
+// 		make([]int, len(nums)),
+// 	}
+// 	for i := 0; i < len(nums); i++ {
+// 		if i == 0 {
+// 			res.Dynamic[i] = nums[i]
+// 		} else {
+// 			res.Dynamic[i] = res.Dynamic[i-1] + nums[i]
+// 		}
+// 	}
+// 	return res
+// }
+
+// func (this *NumArray) SumRange(i int, j int) int {
+// 	if i == 0 {
+// 		return this.Dynamic[j]
+// 	}
+// 	return this.Dynamic[j] - this.Dynamic[i-1]
+// }
 
 /**
  * Your NumArray object will be instantiated and called as such:
