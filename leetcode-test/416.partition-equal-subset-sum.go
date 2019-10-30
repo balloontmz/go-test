@@ -67,6 +67,7 @@ func canPartition(nums []int) bool {
 	dp[0] = true
 	for _, v := range nums {
 		for i := S; i >= v; i-- {
+			// 此处采取倒序,因为正序可能存在低位已经取了该值的情况!!!每个值只取一次
 			dp[i] = (dp[i] || dp[i-v])
 		}
 	}
