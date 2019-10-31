@@ -37,32 +37,50 @@
  */
 
 // @lc code=start
-//需要冷却期的股票交易 -- 维护 2种状态的情况,此种情况应该更优!!!
+//需要冷却期的股票交易 -- 维护 4 种状态的情况.空间复杂度为 o1
+const INT_MAX = int(^uint(0) >> 1)
+const INT_MIN = ^INT_MAX
+
 func maxProfit(prices []int) int {
 	// 211/211 cases passed (0 ms)
 	// Your runtime beats 100 % of golang submissions
-	// Your memory usage beats 100 % of golang submissions (2.4 MB)
-	N := len(prices)
-	if N == 0 {
-		return 0
+	// Your memory usage beats 100 % of golang submissions (2.3 MB)
+	var buy, preBuy, sell, preSell int
+	buy = INT_MIN
+	for _, price := range prices {
+		preBuy = buy
+		buy = max(preSell-price, preBuy)
+		preSell = sell
+		sell = max(preBuy+price, preSell)
 	}
-	var hold = make([]int, N) // 某天持有股票的最大收益
-	var sell = make([]int, N) // 某天空手的最大收益
-	hold[0] = -prices[0]
-	// sell[0] = 0
-
-	for i := 1; i < N; i++ {
-		if i < 2 {
-			hold[i] = max(hold[i-1], -prices[i]) // 买入或者保持
-		} else {
-			hold[i] = max(hold[i-1], sell[i-2]-prices[i]) // 保持或者卖出
-		}
-
-		sell[i] = max(sell[i-1], hold[i-1]+prices[i])
-	}
-	return sell[N-1]
-	// return max(sell[i])
+	return sell
 }
+
+//需要冷却期的股票交易 -- 维护 2种状态的情况,此种情况应该更优!!!
+// func maxProfit(prices []int) int {
+// 	// 211/211 cases passed (0 ms)
+// 	// Your runtime beats 100 % of golang submissions
+// 	// Your memory usage beats 100 % of golang submissions (2.4 MB)
+// 	N := len(prices)
+// 	if N == 0 {
+// 		return 0
+// 	}
+// 	var hold = make([]int, N) // 某天持有股票的最大收益
+// 	var sell = make([]int, N) // 某天空手的最大收益
+// 	hold[0] = -prices[0]
+// 	// sell[0] = 0
+
+// 	for i := 1; i < N; i++ {
+// 		if i < 2 {
+// 			hold[i] = max(hold[i-1], -prices[i]) // 买入或者保持
+// 		} else {
+// 			hold[i] = max(hold[i-1], sell[i-2]-prices[i]) // 保持或者卖出
+// 		}
+
+// 		sell[i] = max(sell[i-1], hold[i-1]+prices[i])
+// 	}
+// 	return sell[N-1]
+// }
 
 //需要冷却期的股票交易 -- 维护 4 种状态的情况
 // func maxProfit(prices []int) int {
