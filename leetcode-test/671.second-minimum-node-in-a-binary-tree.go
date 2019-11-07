@@ -66,48 +66,73 @@
  *     Right *TreeNode
  * }
  */
-//bfs查找二叉树中第二小的元素 -- 切片实现，应该实现得不太好。
-var res = -1
-var bfsArr = []*TreeNode{}
-
+//dfs 查找二叉树中第二小的元素
 func findSecondMinimumValue(root *TreeNode) int {
 	// 35/35 cases passed (0 ms)
 	// Your runtime beats 100 % of golang submissions
 	// Your memory usage beats 100 % of golang submissions (2 MB)
-	var val = root.Val
-	bfsArr = append(bfsArr, root)
-	defer func() {
-		res = -1
-		bfsArr = []*TreeNode{}
-	}()
-
-	for {
-		bfsEle := bfsArr[0]
-		bfsArr = bfsArr[1:]
-		bfs(bfsEle, val)
-		if len(bfsArr) == 0 {
-			break
-		}
+	if root == nil || root.Left == nil {
+		return -1
 	}
-	return res
+	leftVal := root.Left.Val
+	rightVal := root.Right.Val
+	if leftVal == root.Val {
+		leftVal = findSecondMinimumValue(root.Left)
+	}
+	if rightVal == root.Val {
+		rightVal = findSecondMinimumValue(root.Right)
+	}
+	if leftVal != -1 && rightVal != -1 {
+		return min(leftVal, rightVal)
+	}
+	if leftVal != -1 {
+		return leftVal
+	}
+	return rightVal
 }
 
-func bfs(root *TreeNode, val int) {
-	if root.Val != val {
-		if res != -1 {
-			res = min(res, root.Val)
-		} else {
-			res = root.Val
-		}
-		return
-	}
-	if root.Left == nil {
-		return
-	}
-	bfsArr = append(bfsArr, root.Left)
-	bfsArr = append(bfsArr, root.Right)
-	return
-}
+//bfs查找二叉树中第二小的元素 -- 切片实现，应该实现得不太好。性能还行
+// var res = -1
+// var bfsArr = []*TreeNode{}
+
+// func findSecondMinimumValue(root *TreeNode) int {
+// 	// 35/35 cases passed (0 ms)
+// 	// Your runtime beats 100 % of golang submissions
+// 	// Your memory usage beats 100 % of golang submissions (2 MB)
+// 	var val = root.Val
+// 	bfsArr = append(bfsArr, root)
+// 	defer func() {
+// 		res = -1
+// 		bfsArr = []*TreeNode{}
+// 	}()
+
+// 	for {
+// 		bfsEle := bfsArr[0]
+// 		bfsArr = bfsArr[1:]
+// 		bfs(bfsEle, val)
+// 		if len(bfsArr) == 0 {
+// 			break
+// 		}
+// 	}
+// 	return res
+// }
+
+// func bfs(root *TreeNode, val int) {
+// 	if root.Val != val {
+// 		if res != -1 {
+// 			res = min(res, root.Val)
+// 		} else {
+// 			res = root.Val
+// 		}
+// 		return
+// 	}
+// 	if root.Left == nil {
+// 		return
+// 	}
+// 	bfsArr = append(bfsArr, root.Left)
+// 	bfsArr = append(bfsArr, root.Right)
+// 	return
+// }
 
 func min(x, y int) int {
 	if x > y {
