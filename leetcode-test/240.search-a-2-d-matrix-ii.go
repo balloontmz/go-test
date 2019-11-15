@@ -43,7 +43,7 @@
 */
 
 // @lc code=start
-//对角线递增 -- 无法采用二分法
+//对角线递增 -- 无法采用二分法 -- 应该也可以用二分法，但是不是普通的构造方法
 func searchMatrix(matrix [][]int, target int) bool {
 	// 129/129 cases passed (24 ms)
 	// Your runtime beats 90.06 % of golang submissions
