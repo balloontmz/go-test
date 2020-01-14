@@ -100,6 +100,10 @@
 
 // @lc code=start
 //判断是否为完美矩形
+//优化--利用结构体中类型如果可比较则结构体可比较则可用于 map 的键
+// 46/46 cases passed (52 ms)
+// Your runtime beats 100 % of golang submissions
+// Your memory usage beats 100 % of golang submissions (7.4 MB)
 // 46/46 cases passed (80 ms)
 // Your runtime beats 25 % of golang submissions
 // Your memory usage beats 100 % of golang submissions (7.5 MB)
@@ -109,10 +113,15 @@ const INT_MAX = int(^uint(0) >> 1)
 
 var t void
 
+type point struct {
+	x int
+	y int
+}
+
 func isRectangleCover(rectangles [][]int) bool {
 	
 
-	set := make(map[string]void) // New empty set
+	set := make(map[point]void) // New empty set
 
 	var minX, minY = INT_MAX, INT_MAX
 	var MaxX, MaxY int
@@ -126,48 +135,38 @@ func isRectangleCover(rectangles [][]int) bool {
 
 		area += (v[3] - v[1]) * (v[2] - v[0])
 
-		var s1 = arrToStr([2]int{v[0], v[1]})
-		var s2 = arrToStr([2]int{v[0], v[3]})
-		var s3 = arrToStr([2]int{v[2], v[1]})
-		var s4 = arrToStr([2]int{v[2], v[3]})
+		for _, x := range []int{v[0], v[2]} {
+            for _, y := range []int{v[1], v[3]} {
+				p := point{x, y}
 
-		judge(s1, &set)
-		judge(s2, &set)
-		judge(s3, &set)
-		judge(s4, &set)
+				if contain(p, set) {
+					delete(set, p)
+				} else {
+					set[p] = t
+				}
+			}
+		}
 	}
 
-	var t1 = arrToStr([2]int{minX, minY})
-	var t2 = arrToStr([2]int{minX, MaxY})
-	var t3 = arrToStr([2]int{MaxX, minY})
-	var t4 = arrToStr([2]int{MaxX, MaxY})
+	var t1 = point{minX, minY}
+	var t2 = point{minX, MaxY}
+	var t3 = point{MaxX, minY}
+	var t4 = point{MaxX, MaxY}
 
 	if len(set) != 4 {
 		return false
 	}
 
-	if !contain(t1, &set) || !contain(t2, &set) || !contain(t3, &set) || !contain(t4, &set) {
+	if !contain(t1, set) || !contain(t2, set) || !contain(t3, set) || !contain(t4, set) {
 		return false
 	}
 
 	return area == (MaxY - minY) * (MaxX - minX)	
 }
 
-func contain(s string, m *map[string]void) bool {
-	_, ok := (*m)[s]
+func contain(s point, m map[point]void) bool {
+	_, ok := (m)[s]
 	return ok
-}
-
-func judge(s string, m *map[string]void)  {
-	if _, ok := (*m)[s]; ok {
-		delete((*m), s)
-	} else {
-		(*m)[s] = t
-	}
-}
-
-func arrToStr(arr [2]int) string {
-	return strconv.Itoa(arr[0]) + "_" + strconv.Itoa(arr[1])
 }
 
 func max(x, y int) int {
